@@ -12,18 +12,19 @@ interface List {
 export default function home() {
   const [todo, setTodo] = useState<List[]>([]);
   const [value, setValue] = useState<string>("");
-  
 
   const handleTodo = () => {
     if (value) {
       const item: List = { name: value, checked: false };
-      setTodo([...todo, item]);
+      setTodo([item,...todo]);
+      setValue("");
     }
   };
+
   useEffect(() => {
     console.log(todo);
   }, [todo]);
- 
+
   const handleChecker = (index: number) => {
     const updatedTodos = todo.map((item, i) =>
       i === index ? { ...item, checked: !item.checked } : item
@@ -31,15 +32,20 @@ export default function home() {
     setTodo(updatedTodos);
   };
 
+  const handleRemove = (index:number)=>{
+    const taskRemoved = todo.filter((_,i) =>(i !== index));
+    setTodo(taskRemoved);
+  }
 
   return (
-    <div className="min-h-screen pb-[50px] w-full flex flex-col bg-[#FAFAFA]">
+    <div className="min-h-screen pb-[50px] w-full flex flex-col bg-[#FAFAFA] ">
       <div
-        className=" h-[300px] w-full bg-cover bg-center bg-no-repeat"
+        className=" h-[300px] w-full  bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url('/images/bg_img.svg')" }}
       ></div>
 
-      <div className="  w-[500px] bg-white self-center mt-[-150px] flex pl-4 pr-2 py-2 mb-6">
+         {/* writing field */}
+      <div className=" w-[85%] font-josefin sm:w-[500px] rounded-[10px] relative  bg-white self-center mt-[-150px] flex pl-4 pr-2 py-2 mb-6">
         <input
           type="text"
           placeholder="Create a new todo..."
@@ -52,14 +58,15 @@ export default function home() {
         </button>
       </div>
 
-      <div className="w-[500px] h-fit self-center rounded-[6px] bg-white shadow-2xl ">
+      <div className=" w-[85%] sm:w-[500px]  h-fit self-center rounded-[6px] bg-white shadow-2xl ">
+        {/* lising field */}
         {todo.map((item, index) => {
           return (
             <div
-              className="h-[60px] w-[500px] bg-white  self-center border-b-[0.5px] rounded-t-[6px] border-b-gray-400 mb-2"
+              className="h-[60px] w-full  bg-white  self-center border-b-[0.5px] rounded-t-[6px] border-b-gray-400 mb-2"
               key={index}
             >
-              <div className="flex items-center">
+              <div className="flex items-center font-josefin">
                 <label className="relative flex space-x-3 mr-auto  items-center cursor-pointer pl-[25px]">
                   <input
                     type="checkbox"
@@ -80,9 +87,11 @@ export default function home() {
                       </svg>
                     )}
                   </div>
-                  <span className="ml-2 text-[18px] font-bold text-secondery ">{item.name} ---{item.checked ? "Completed" : "Pending"}</span>
+                  <span className={`ml-2 text-[20px] font-bold  ${item.checked ? "line-through text-[#D1D2DA] " : "text-secondery"} `}>
+                    {item.name} 
+                  </span>
                 </label>
-                <button className="p-2">
+                <button onClick={()=>handleRemove(index)} className="p-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6 text-[#494C6B]"
@@ -102,10 +111,11 @@ export default function home() {
             </div>
           );
         })}
-
-        <div className="flex justify-between items-center text-secondery h-[50px] px-4">
-          <p>0 items left</p>
-          <div className=" font-semibold flex space-x-2">
+           
+           {/* filtering listed task */}
+        <div className=" w-full flex justify-between items-center text-secondery h-[50px] px-4">
+          <p>{todo.length} items left</p>
+          <div className=" font-semibold flex space-x-2 max-sm:hidden">
             <button className="text-primary">All</button>
             <button className="">Active</button>
             <button className="">Completed</button>
@@ -113,9 +123,22 @@ export default function home() {
           <button>clear Completed</button>
         </div>
       </div>
+
+
+           {/* filtering listed task for mobile version*/}
+        <div className="w-[85%] bg-white space-x-6 self-center shadow-2xl rounded-[6px] mt-4   flex justify-between items-center text-secondery h-[50px] px-16 font-semibold sm:hidden ">
+            <button className="text-primary">All</button>
+            <button className="">Active</button>
+            <button className="">Completed</button>
+          </div>
     </div>
   );
 }
+
+
+
+
+
 
 // "use client";
 // import { useState } from "react";
