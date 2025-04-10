@@ -57,15 +57,18 @@ export default function NavLayout({ children }: { children: React.ReactNode }) {
             </button>
           </div>
         {isUserOpen && (
-          <div className="absolute w-[200px] h-fit rounded-2xl bg-white top-[65px] right-[20px] px-3 py-3 space-y-1 flex flex-col ">
-            <p className="mb-auto text-left pl-2 pb-8">hi mohammed</p>
-            <button className="bg-secondery py-4 px-6 rounded-md w-full  text-white">Modify user info</button>
-            <button className="bg-primary py-2 px-4 rounded-md w-full text-white">Logout</button>
+          <div className=" w-full min-h-screen bg-[rgba(0,0,0,0.8)]   absolute top-[63px] space-y-3   flex flex-col justify-center items-center z-[1000] 
+          sm:w-[300px] sm:h-fit sm:rounded-2xl sm:bg-white sm:top-[65px] sm:right-[20px] sm:px-3 sm:py-3 sm:space-y-1 sm:min-h-0
+          ">
+            <p className=" font-bold text-primary text-2xl pb-5 text-left sm:pl-2 sm:pb-8  sm:mb-auto">hi mohammed</p>
+            <button className="bg-[#7C8495] text-2xl py-4 px-6 rounded-md w-[321px] font-medium sm:py-3 sm:px-2 sm:w-full  text-white">Modify user info</button>
+            <button className="bg-primary  text-white text-2xl py-4 px-6 rounded-md w-[321px] font-medium sm:w-full sm:py-3 sm:px-2 ">Logout</button>
           </div>
         )}
+       
         </nav>
 
-      
+      {/* sm:w-[200px] sm:h-fit sm:rounded-2xl sm:bg-white sm:top-[65px] sm:right-[20px] sm:px-3 sm:py-3 sm:space-y-1 */}
 
       <main>{children}</main>
     </div>

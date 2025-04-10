@@ -16,7 +16,7 @@ export default function home() {
   const handleTodo = () => {
     if (value) {
       const item: List = { name: value, checked: false };
-      setTodo([item,...todo]);
+      setTodo([item, ...todo]);
       setValue("");
     }
   };
@@ -32,20 +32,20 @@ export default function home() {
     setTodo(updatedTodos);
   };
 
-  const handleRemove = (index:number)=>{
-    const taskRemoved = todo.filter((_,i) =>(i !== index));
+  const handleRemove = (index: number) => {
+    const taskRemoved = todo.filter((_, i) => i !== index);
     setTodo(taskRemoved);
-  }
+  };
 
   return (
     <div className="min-h-screen pb-[50px] w-full flex flex-col bg-[#FAFAFA] ">
       <div
-        className=" h-[300px] w-full  bg-cover bg-center bg-no-repeat"
+        className="h-[250px] sm:h-[350px]  w-full  bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url('/images/bg_img.svg')" }}
       ></div>
 
-         {/* writing field */}
-      <div className=" w-[85%] font-josefin sm:w-[500px] rounded-[10px] relative  bg-white self-center mt-[-150px] flex pl-4 pr-2 py-2 mb-6">
+      {/* writing field */}
+      <div className=" w-[85%] font-josefin min-[900px]:mt-[-160px] sm:w-[500px] rounded-[10px] relative  bg-white self-center mt-[-205px] flex pl-4 pr-2 py-2 mb-12  sm:mb-6 ">
         <input
           type="text"
           placeholder="Create a new todo..."
@@ -87,11 +87,17 @@ export default function home() {
                       </svg>
                     )}
                   </div>
-                  <span className={`ml-2 text-[20px] font-bold  ${item.checked ? "line-through text-[#D1D2DA] " : "text-secondery"} `}>
-                    {item.name} 
+                  <span
+                    className={`ml-2 text-[20px] font-bold  ${
+                      item.checked
+                        ? "line-through text-[#D1D2DA] "
+                        : "text-secondery"
+                    } `}
+                  >
+                    {item.name}
                   </span>
                 </label>
-                <button onClick={()=>handleRemove(index)} className="p-2">
+                <button onClick={() => handleRemove(index)} className="p-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6 text-[#494C6B]"
@@ -111,34 +117,30 @@ export default function home() {
             </div>
           );
         })}
-           
-           {/* filtering listed task */}
-        <div className=" w-full flex justify-between items-center text-secondery h-[50px] px-4">
-          <p>{todo.length} items left</p>
-          <div className=" font-semibold flex space-x-2 max-sm:hidden">
+
+        {/* filtering listed task */}
+        <div className=" w-full flex justify-between  items-center text-secondery h-[50px] px-4">
+          <p className="font-medium">{todo.length} items left</p>
+          <div className=" font-semibold flex space-x-4 max-sm:hidden">
             <button className="text-primary">All</button>
             <button className="">Active</button>
             <button className="">Completed</button>
           </div>
-          <button>clear Completed</button>
+          <button  onClick={() => setTodo(prev => prev.filter(item => !item.checked))} className="font-medium">
+            Clear Completed
+          </button>
         </div>
       </div>
 
-
-           {/* filtering listed task for mobile version*/}
-        <div className="w-[85%] bg-white space-x-6 self-center shadow-2xl rounded-[6px] mt-4   flex justify-between items-center text-secondery h-[50px] px-16 font-semibold sm:hidden ">
-            <button className="text-primary">All</button>
-            <button className="">Active</button>
-            <button className="">Completed</button>
-          </div>
+      {/* filtering listed task for mobile version*/}
+      <div className="w-[85%] bg-white space-x-6 self-center shadow-2xl rounded-[6px] mt-4   flex justify-between items-center text-secondery h-[50px] px-16 font-semibold sm:hidden ">
+        <button className="text-primary">All</button>
+        <button className="">Active</button>
+        <button className="">Completed</button>
+      </div>
     </div>
   );
 }
-
-
-
-
-
 
 // "use client";
 // import { useState } from "react";
