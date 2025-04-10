@@ -34,7 +34,7 @@ export default function NavLayout({ children }: { children: React.ReactNode }) {
      
         <nav className="h-[62px] w-full flex items-center relative">
           <div className="ml-5">
-            <img src="/images/logo-pink.svg" alt="logo" />
+            <img src="/images/h_page/logo-pink.svg" alt="logo" />
           </div>
           <h1 className="mr-auto ml-2 text-2xl text-primary">Your Notes</h1>
           <div className="flex space-x-4 mr-6">
@@ -47,13 +47,13 @@ export default function NavLayout({ children }: { children: React.ReactNode }) {
             <button onClick={handleTheme}>
               <img
                 src={
-                  theme === "Dark" ? "/images/light.svg" : "/images/dark.svg"
+                  theme === "Dark" ? "/images/h_page/light.svg" : "/images/h_page/dark.svg"
                 }
                 alt="dark mode toggle"
               />
             </button>
             <button onClick={handleUser}>
-              <img src="/images/user.svg" alt="user profile" />
+              <img src="/images/h_page/user.svg" alt="user profile" />
             </button>
           </div>
         {isUserOpen && (

@@ -49,7 +49,7 @@ export default function home() {
     <div className="min-h-screen pb-[50px] w-full flex flex-col bg-[#FAFAFA] ">
       <div
         className="h-[250px] sm:h-[350px]  w-full  bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/images/bg_img.svg')" }}
+        style={{ backgroundImage: "url('/images/h_page/bg_img.svg')" }}
       ></div>
 
       {/* writing field */}
@@ -149,6 +149,8 @@ export default function home() {
     </div>
   );
 }
+
+
 
 // "use client";
 // import { useState } from "react";
