@@ -11,6 +11,7 @@ interface List {
 
 export default function home() {
   const [todo, setTodo] = useState<List[]>([]);
+  const [filterStatus, setFilterStatus] = useState<string>("all");
   const [value, setValue] = useState<string>("");
 
   const handleTodo = () => {
@@ -20,6 +21,13 @@ export default function home() {
       setValue("");
     }
   };
+   
+  const filteredTodo = todo.filter((item)=>{
+    if(filterStatus == "active") return !item.checked;
+    if(filterStatus == "completed") return item.checked;
+    return true;
+  })
+
 
   useEffect(() => {
     console.log(todo);
@@ -60,7 +68,7 @@ export default function home() {
 
       <div className=" w-[85%] sm:w-[500px]  h-fit self-center rounded-[6px] bg-white shadow-2xl ">
         {/* lising field */}
-        {todo.map((item, index) => {
+        {filteredTodo.map((item, index) => {
           return (
             <div
               className="h-[60px] w-full  bg-white  self-center border-b-[0.5px] rounded-t-[6px] border-b-gray-400 mb-2"
@@ -120,11 +128,11 @@ export default function home() {
 
         {/* filtering listed task */}
         <div className=" w-full flex justify-between  items-center text-secondery h-[50px] px-4">
-          <p className="font-medium">{todo.length} items left</p>
+          <p className="font-medium">{filteredTodo.length} items left</p>
           <div className=" font-semibold flex space-x-4 max-sm:hidden">
-            <button className="text-primary">All</button>
-            <button className="">Active</button>
-            <button className="">Completed</button>
+            <button onClick={() => setFilterStatus("all")} className={`${filterStatus == 'all'?"text-primary" :""}`}>All</button>
+            <button onClick={() => setFilterStatus("active")} className={`${filterStatus == 'active'?"text-primary" :""}`}>Active</button>
+            <button onClick={() => setFilterStatus("completed")} className={`${filterStatus == 'completed'?"text-primary" :""}`}>Completed</button>
           </div>
           <button  onClick={() => setTodo(prev => prev.filter(item => !item.checked))} className="font-medium">
             Clear Completed
