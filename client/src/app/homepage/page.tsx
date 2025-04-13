@@ -3,13 +3,14 @@ import { log } from "console";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import React from "react";
+import { useAppContext } from "@/context";
 
 interface List {
   name: string;
   checked: boolean;
 }
 
-export default function home() {
+export default function Home() {
   const [todo, setTodo] = useState<List[]>([]);
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [value, setValue] = useState<string>("");
@@ -43,7 +44,9 @@ export default function home() {
   const handleRemove = (index: number) => {
     const taskRemoved = todo.filter((_, i) => i !== index);
     setTodo(taskRemoved);
-  };
+  }; 
+
+  const {lang,setLang} = useAppContext()
 
   return (
     <div className="min-h-screen pb-[50px] w-full flex flex-col bg-[#FAFAFA] ">
@@ -143,7 +146,7 @@ export default function home() {
       {/* filtering listed task for mobile version*/}
       <div className="w-[85%] bg-white space-x-6 self-center shadow-2xl rounded-[6px] mt-4   flex justify-between items-center text-secondery h-[50px] px-16 font-semibold sm:hidden ">
         <button className="text-primary">All</button>
-        <button className="">Active</button>
+        <button className="">Active </button>
         <button className="">Completed</button>
       </div>
     </div>

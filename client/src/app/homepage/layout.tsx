@@ -3,6 +3,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { useState } from "react";
+import { useAppContext } from "@/context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,9 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export default function NavLayout({ children }: { children: React.ReactNode }) {
-  const [lang, setLang] = useState<string>("Ar");
-  const [theme, setTheme] = useState<string>("Light");
   const [isUserOpen, setIsUserOpen] = useState<boolean>(false);
+  const {lang,setLang} = useAppContext()
+  const {theme,setTheme} = useAppContext()
 
   const handleLang = () => {
     setLang(lang === "Ar" ? "En" : "Ar");
@@ -28,6 +29,7 @@ export default function NavLayout({ children }: { children: React.ReactNode }) {
   const handleUser = () => {
     setIsUserOpen((prev) => !prev);
   };
+
 
   return (
     <div className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
