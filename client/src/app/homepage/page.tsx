@@ -3,6 +3,7 @@ import { log } from "console";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import React from "react";
+import { useRouter } from 'next/navigation'
 import { useAppContext } from "@/context";
 
 interface List {
@@ -14,6 +15,7 @@ export default function Home() {
   const [todo, setTodo] = useState<List[]>([]);
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [value, setValue] = useState<string>("");
+  const router = useRouter()
 
   const handleTodo = () => {
     if (value) {

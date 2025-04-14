@@ -1,5 +1,5 @@
 "use client";
-
+import { useRouter } from 'next/navigation'
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { useState } from "react";
@@ -19,7 +19,7 @@ export default function NavLayout({ children }: { children: React.ReactNode }) {
   const [isUserOpen, setIsUserOpen] = useState<boolean>(false);
   const {lang,setLang} = useAppContext()
   const {theme,setTheme} = useAppContext()
-
+  const router = useRouter()
   const handleLang = () => {
     setLang(lang === "Ar" ? "En" : "Ar");
   };
@@ -68,7 +68,9 @@ export default function NavLayout({ children }: { children: React.ReactNode }) {
             <p className=" font-bold text-primary text-2xl pb-5 text-left sm:pl-2 sm:pb-8  sm:mb-auto">
               hi mohammed
             </p>
-            <button className="bg-[#7C8495] text-2xl py-4 px-6 rounded-md w-[321px] font-medium sm:py-3 sm:px-2 sm:w-full  text-white">
+            <button
+            onClick={() => router.push('/homepage/modify')}
+             className="bg-[#7C8495] text-2xl py-4 px-6 rounded-md w-[321px] font-medium sm:py-3 sm:px-2 sm:w-full  text-white">
               Modify user info
             </button>
             <button className="bg-primary  text-white text-2xl py-4 px-6 rounded-md w-[321px] font-medium sm:w-full sm:py-3 sm:px-2 ">
