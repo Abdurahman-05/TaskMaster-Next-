@@ -7,7 +7,7 @@ const appContext = createContext<any>(undefined);
 export function AppWrapper({ children }: { children: React.ReactNode }){
 
     let [lang,setLang] = useState<string>("Ar");
-    const [theme, setTheme] = useState<string>("Light");
+    const [theme, setTheme] = useState<string>("light");
 
 
   return (

@@ -22,9 +22,20 @@ export default function NavLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter()
   const handleLang = () => {
     setLang(lang === "Ar" ? "En" : "Ar");
+    
+    
   };
   const handleTheme = () => {
-    setTheme(theme === "Light" ? "Dark" : "Light");
+    if(theme === 'dark'){
+      setTheme("light");
+      document.documentElement.classList.remove('dark');
+      localStorage.theme = 'light';
+    }
+    else{
+      setTheme("dark");
+      document.documentElement.classList.add('dark');
+      localStorage.theme = 'dark';
+    }
   };
   const handleUser = () => {
     setIsUserOpen((prev) => !prev);
@@ -48,7 +59,7 @@ export default function NavLayout({ children }: { children: React.ReactNode }) {
           <button onClick={handleTheme}>
             <img
               src={
-                theme === "Dark"
+                theme === "dark"
                   ? "/images/h_page/light.svg"
                   : "/images/h_page/dark.svg"
               }
