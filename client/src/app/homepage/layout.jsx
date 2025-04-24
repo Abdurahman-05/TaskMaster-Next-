@@ -2,8 +2,9 @@
 import { useRouter } from 'next/navigation'
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
-import { useState } from "react";
+import { useState,useEffectcd } from "react";
 import { useAppContext } from "@/context";
+import jwt from 'jsonwebtoken';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,11 +16,38 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export default function NavLayout({ children }: { children: React.ReactNode }) {
-  const [isUserOpen, setIsUserOpen] = useState<boolean>(false);
+export default function NavLayout({ children }) {
+  const [isUserOpen, setIsUserOpen] = useState(false);
   const {lang,setLang} = useAppContext()
   const {theme,setTheme} = useAppContext()
   const router = useRouter()
+
+  const [username, setUsername] = useState(null);
+  
+    useEffect(() => {
+      // Retrieve the token from localStorage
+      const token = localStorage.getItem('accessToken');
+  
+      if (token) {
+        try {
+          // Decode the token without verifying it (no secret required)
+          const decoded = jwt.decode(token); // This will return the payload
+          console.log(decoded); // Check the decoded token
+  
+          if (decoded) {
+            setUsername(decoded.username); // Assuming the username is in the token
+          }
+        } catch (error) {
+          console.error('Error decoding token:', error);
+        }
+      } else {
+        console.log('No token found');
+      }
+    }, []); 
+
+
+
+
   const handleLang = () => {
     setLang(lang === "Ar" ? "En" : "Ar");
     
@@ -77,7 +105,7 @@ export default function NavLayout({ children }: { children: React.ReactNode }) {
           "
           >
             <p className=" font-bold text-primary text-2xl pb-5 text-left sm:pl-2 sm:pb-8  sm:mb-auto">
-              hi mohammed
+              hi {username} 
             </p>
             <button
             onClick={() => router.push('/homepage/modify')}

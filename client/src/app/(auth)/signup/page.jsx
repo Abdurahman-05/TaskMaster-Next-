@@ -47,7 +47,14 @@ export default function Signup() {
       });
 
       const data = await res.json();
-      console.log("Response from backend:", data);
+     
+
+      if(!res.ok){
+        alert(data.error);
+        return;
+      }
+
+      alert("User registered successfully");
     } catch (err) {
       console.error("Error:", err);
     }

@@ -6,6 +6,7 @@ import React from "react";
 import { useRouter } from 'next/navigation'
 import { useAppContext } from "@/context";
 
+
 interface List {
   name: string;
   checked: boolean;
@@ -15,7 +16,9 @@ export default function Home() {
   const [todo, setTodo] = useState<List[]>([]);
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [value, setValue] = useState<string>("");
-  const router = useRouter()
+  const router = useRouter();
+
+  
 
   const handleTodo = () => {
     if (value) {

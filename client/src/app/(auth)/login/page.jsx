@@ -2,15 +2,48 @@
 
 import { useAppContext } from "@/context";
 import { handleClientScriptLoad } from "next/script";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 export default function Login() {
-  const { lang, setLang } = useAppContext();
-  const [ShowPwd, setShowPwd] = useState<boolean>(false);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const router = useRouter();
 
-  const handlePage = () => {
-    setCurrentPage(currentPage === 1 ? 2 : 1);
+  const { lang, setLang } = useAppContext();
+  const [ShowPwd, setShowPwd] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      console.log(data, res);
+
+      if (!res.ok) {
+        alert(data.error);
+        return;
+      } else {
+        alert("User logged successfully!!!");
+        localStorage.setItem('accessToken', data.accessToken);
+        router.push("/homepage");
+      }
+    } catch (err) {
+      console.error("Error:", err);
+    }
   };
 
   return (
@@ -54,6 +87,9 @@ export default function Login() {
             <input
               type="email"
               autoComplete="email"
+              name="email"
+              onChange={handleChange}
+              value={formData.email}
               className="h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white drop-shadow-md"
             />
           </div>
@@ -61,7 +97,9 @@ export default function Login() {
             <p className="text-2xl">Password</p>
             <input
               type={ShowPwd ? "text" : "password"}
-              name="new-password"
+              name="password"
+              onChange={handleChange}
+              value={formData.password}
               autoComplete="new-password"
               className="h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white"
             />
@@ -73,10 +111,10 @@ export default function Login() {
               <img src="/images/aut/Vector.svg" alt="" />
             </button>
           </div>
-        
+
           <button
-            onClick={handlePage}
-            type="button"
+            onClick={handleSubmit}
+            type="submit"
             className="w-full bg-primary text-white font-bold text-2xl py-3 rounded-lg flex justify-center gap-3 items-center drop-shadow-md"
           >
             Login
