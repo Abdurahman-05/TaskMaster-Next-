@@ -7,11 +7,50 @@ import { FaArrowRight } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
 export default function Signup() {
   const { lang, setLang } = useAppContext();
-  const [ShowPwd, setShowPwd] = useState<boolean>(false);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [ShowPwd, setShowPwd] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    rePassword: "",
+    phone: "",
+    username: "",
+    dateOfBirth: "",
+  });
 
   const handlePage = () => {
-    setCurrentPage(currentPage === 1 ? 2 : 1);
+    if (formData.password !== formData.rePassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+    if (!formData.email || !formData.password || !formData.rePassword) {
+      alert("pls fill the requirement!!!!!!!");
+      return;
+    }
+
+    setCurrentPage((prevPage) => (prevPage === 1 ? 2 : 1));
+  };
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch("http://localhost:5000/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData), // send formData to req.body
+      });
+
+      const data = await res.json();
+      console.log("Response from backend:", data);
+    } catch (err) {
+      console.error("Error:", err);
+    }
   };
 
   return (
@@ -58,7 +97,11 @@ export default function Signup() {
               <p className="text-2xl">Email</p>
               <input
                 type="email"
+                name="email"
                 autoComplete="email"
+                onChange={handleChange}
+                value={formData.email}
+                required
                 className="h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white drop-shadow-md"
               />
             </div>
@@ -66,8 +109,11 @@ export default function Signup() {
               <p className="text-2xl">Password</p>
               <input
                 type={ShowPwd ? "text" : "password"}
-                name="new-password"
+                name="password"
                 autoComplete="new-password"
+                onChange={handleChange}
+                value={formData.password}
+                required
                 className="h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white"
               />
               <button
@@ -82,8 +128,11 @@ export default function Signup() {
               <p className="text-2xl">Confirm password</p>
               <input
                 type={ShowPwd ? "text" : "password"}
-                name="confirm-password"
+                name="rePassword"
                 autoComplete="new-password"
+                value={formData.rePassword}
+                required
+                onChange={handleChange}
                 className="h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white"
               />
               <button
@@ -129,6 +178,10 @@ export default function Signup() {
               <input
                 type="text"
                 autoComplete="off"
+                onChange={handleChange}
+                value={formData.username}
+                required
+                name="username"
                 className="h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white drop-shadow-sm"
               />
             </div>
@@ -137,6 +190,8 @@ export default function Signup() {
               <input
                 type="text"
                 name="phone"
+                onChange={handleChange}
+                value={formData.phone}
                 className="h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white"
               />
             </div>
@@ -144,12 +199,18 @@ export default function Signup() {
               <p className="text-xl">Birthday Year</p>
               <input
                 type="text"
-                name="birthday year"
+                name="dateOfBirth"
+                value={formData.dateOfBirth}
+                onChange={handleChange}
                 className="h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white"
               />
             </div>
 
-            <button className="w-full bg-primary text-white font-bold text-2xl py-3 rounded-lg flex justify-center gap-3 items-center drop-shadow-md">
+            <button
+              className="w-full bg-primary text-white font-bold text-2xl py-3 rounded-lg flex justify-center gap-3 items-center drop-shadow-md"
+              onClick={handleSubmit}
+              type="submit"
+            >
               Complete Signup <FaArrowRight />
             </button>
             <button

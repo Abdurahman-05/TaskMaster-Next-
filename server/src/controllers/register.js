@@ -1,11 +1,13 @@
 import express from "express";
 import prisma from "../prisma/client.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import "dotenv/config";
 
-export const registerController = async (req, res) => {
+const registerController = async (req, res) => {
   const { username, email, password, rePassword, phone, dateOfBirth } =
     req.body;
-  console.log(req.body);
+  // console.log(req.body);
 
   if (password !== rePassword) {
     return res.status(400).json({ error: "Passwords do not match!" });
@@ -29,13 +31,61 @@ export const registerController = async (req, res) => {
         dateOfBirth,
       },
     });
+    const accessToken = jwt.sign(
+      {
+        id: newUser.id,
+        username: newUser.username,
+      },
+      process.env.ACCESS_TOKEN,
+      { expiresIn: "5m" }
+    );
 
-    return res.status(350).json({
-      message: "user successfully registered!!!",
-      user: username,
-    });
+    return res
+      .status(201)
+      .json({ accessToken, message: "User registered successfully" });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Server error occurred" });
   }
 };
+
+const loginController = async (req, res) => {
+  const { email, password } = req.body;
+  // console.log(req.body);
+
+  const user = await prisma.user.findUnique({ where: { email } });
+
+  if (!user) {
+    return res.status(400).json({ error: "User are not registerd!!!" });
+  }
+
+  try {
+    const check_password = await bcrypt.compare(password, user.password);
+    if (!check_password) {
+      return res.status(400).json({
+        error: "incorrect password!!!!!!",
+      });
+    }
+    console.log(typeof user.id)
+    const accessToken = jwt.sign(
+      {
+        id: user.id,
+        username: user.username,
+      },
+      process.env.ACCESS_TOKEN,
+      { expiresIn: "5m" }
+    );
+
+    return res.json({ accessToken, message: "Login successful" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Server error occurred" });
+  }
+};
+
+const authController = {
+  registerController,
+  loginController,
+};
+
+export default authController;
