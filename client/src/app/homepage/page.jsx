@@ -1,16 +1,11 @@
 "use client";
 
 import { IoAddCircleOutline } from "react-icons/io5";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useAppContext } from "@/context";
 import ProtectedRouter from "@/components/protectedRoute";
-
-// interface List {
-//   name: string;
-//   checked: boolean;
-// }
 
 export default function Home() {
   const [todo, setTodo] = useState([]);
@@ -18,43 +13,19 @@ export default function Home() {
   const [value, setValue] = useState("");
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const token = localStorage.getItem("accessToken");
-
-      const response = await fetch("http://localhost:5000/user", {
-        method: "POST",
-        body: JSON.stringify(todo),
-      });
-
-      const result = await response.json();
-      if (!response.ok) {
-        alert(result.error);
-      }
-      alert(result.message);
-      console.log("Server Response:", result);
-    } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred while updating the user.");
-    }
-  };
-
-  useEffect(() => {
-    const storedTodo = localStorage.getItem("todo");
-    if (storedTodo) {
-      setTodo(JSON.parse(storedTodo));
-    }
-  }, []);
-
   const handleTodo = () => {
     if (value) {
       const item = { name: value, checked: false };
       setTodo([item, ...todo]);
+      console.log(todo);
       setValue("");
     }
   };
+  
+  useEffect (() => {
+    console.log(todo);
+    
+  });
 
   const handleRemove = (index) => {
     const taskRemoved = todo.filter((_, i) => i !== index);
@@ -62,10 +33,29 @@ export default function Home() {
   };
 
   useEffect(() => {
-    localStorage.setItem("todo", JSON.stringify(todo));
-    const sendTodoToServer = async () => {
+    const loadTodo = async () => {
       try {
-        const taskList = await fetch("http://localhost:5000/user", {
+        const response = await fetch("http://localhost:5000/task", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        });
+        const data = await response.json();
+        setTodo(data.tasks || []);
+      } catch (error) {
+        console.error("Failed to fetch tasks", error);
+      }
+    };
+
+    loadTodo();
+  }, []);
+
+  // Save todo to backend when todo changes
+  useEffect(() => {
+  
+    const saveTodo = async () => {
+      try {
+        await fetch("http://localhost:5000/user", {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -73,19 +63,12 @@ export default function Home() {
           },
           body: JSON.stringify(todo),
         });
-
-        const result = await taskList.json();
-        if (!taskList.ok) {
-          alert(result.error);
-        }
-        console.log("Server Response:", result);
       } catch (error) {
-        console.error("Error:", error);
-        alert("An error occurred while updating the user.");
+        console.error("Error saving todo to server:", error);
       }
     };
 
-    sendTodoToServer();
+    saveTodo();
   }, [todo]);
 
   const filteredTodo = todo.filter((item) => {
@@ -93,10 +76,6 @@ export default function Home() {
     if (filterStatus == "completed") return item.checked;
     return true;
   });
-
-  useEffect(() => {
-    console.log(todo);
-  }, [todo]);
 
   const handleChecker = (index) => {
     const updatedTodos = todo.map((item, i) =>
