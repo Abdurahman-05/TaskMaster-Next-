@@ -18,7 +18,35 @@ export default function Home() {
   const [value, setValue] = useState("");
   const router = useRouter();
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    try {
+      const token = localStorage.getItem("accessToken");
+
+      const response = await fetch("http://localhost:5000/user", {
+        method: "POST",
+        body: JSON.stringify(todo),
+      });
+
+      const result = await response.json();
+      if (!response.ok) {
+        alert(result.error);
+      }
+      alert(result.message);
+      console.log("Server Response:", result);
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred while updating the user.");
+    }
+  };
+
+  useEffect(() => {
+    const storedTodo = localStorage.getItem("todo");
+    if (storedTodo) {
+      setTodo(JSON.parse(storedTodo));
+    }
+  }, []);
 
   const handleTodo = () => {
     if (value) {
@@ -27,6 +55,38 @@ export default function Home() {
       setValue("");
     }
   };
+
+  const handleRemove = (index) => {
+    const taskRemoved = todo.filter((_, i) => i !== index);
+    setTodo(taskRemoved);
+  };
+
+  useEffect(() => {
+    localStorage.setItem("todo", JSON.stringify(todo));
+    const sendTodoToServer = async () => {
+      try {
+        const taskList = await fetch("http://localhost:5000/user", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+          body: JSON.stringify(todo),
+        });
+
+        const result = await taskList.json();
+        if (!taskList.ok) {
+          alert(result.error);
+        }
+        console.log("Server Response:", result);
+      } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred while updating the user.");
+      }
+    };
+
+    sendTodoToServer();
+  }, [todo]);
 
   const filteredTodo = todo.filter((item) => {
     if (filterStatus == "active") return !item.checked;
@@ -45,158 +105,132 @@ export default function Home() {
     setTodo(updatedTodos);
   };
 
-  const handleRemove = (index) => {
-    const taskRemoved = todo.filter((_, i) => i !== index);
-    setTodo(taskRemoved);
-  };
-
   const { lang, setLang } = useAppContext();
 
   return (
-      <div className="min-h-screen pb-[50px] w-full flex flex-col bg-[#FAFAFA] ">
-        <div
-          className="h-[250px] sm:h-[350px]  w-full  bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/images/h_page/bg_img.svg')" }}
-        ></div>
+    <div className="min-h-screen pb-[50px] w-full flex flex-col bg-[#FAFAFA] ">
+      <div
+        className="h-[250px] sm:h-[350px]  w-full  bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/images/h_page/bg_img.svg')" }}
+      ></div>
 
-        {/* writing field */}
-        <div className=" w-[85%] font-josefin min-[900px]:mt-[-160px] sm:w-[500px] rounded-[10px] relative  bg-white self-center mt-[-205px] flex pl-4 pr-2 py-2 mb-12  sm:mb-6 ">
-          <input
-            type="text"
-            placeholder="Create a new todo..."
-            className="placeholder:font-josefin placeholder:text-[18px] placeholder:font-normal w-full outline-none text-secondery text-2xl font-semibold"
-            onChange={(e) => setValue(e.target.value)}
-            value={value}
-          />
-          <button className="cursor-pointer " onClick={handleTodo}>
-            <IoAddCircleOutline color="#494C6B" size={40} />
-          </button>
-        </div>
+      {/* writing field */}
+      <div className=" w-[85%] font-josefin min-[900px]:mt-[-160px] sm:w-[500px] rounded-[10px] relative  bg-white self-center mt-[-205px] flex pl-4 pr-2 py-2 mb-12  sm:mb-6 ">
+        <input
+          type="text"
+          placeholder="Create a new todo..."
+          className="placeholder:font-josefin placeholder:text-[18px] placeholder:font-normal w-full outline-none text-secondery text-2xl font-semibold"
+          onChange={(e) => setValue(e.target.value)}
+          value={value}
+        />
+        <button className="cursor-pointer " onClick={handleTodo}>
+          <IoAddCircleOutline color="#494C6B" size={40} />
+        </button>
+      </div>
 
-        <div className=" w-[85%] sm:w-[500px]  h-fit self-center rounded-[6px] bg-white shadow-2xl ">
-          {/* lising field */}
-          {filteredTodo.map((item, index) => {
-            return (
-              <div
-                className="h-[60px] w-full  bg-white  self-center border-b-[0.5px] rounded-t-[6px] border-b-gray-400 mb-2"
-                key={index}
-              >
-                <div className="flex items-center font-josefin">
-                  <label className="relative flex space-x-3 mr-auto  items-center cursor-pointer pl-[25px]">
-                    <input
-                      type="checkbox"
-                      checked={item.checked}
-                      onChange={() => handleChecker(index)}
-                      className="peer hidden"
-                    />
-                    <div className="w-6 h-6 rounded-full border-2 border-gray-300 peer-checked:bg-primary transition-all duration-200 flex items-center justify-center">
-                      {item.checked && (
-                        <svg
-                          className="w-3 h-3 text-white"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="3"
-                          viewBox="0 0 24 24"
-                        >
-                          <path d="M5 13l4 4L19 7" />
-                        </svg>
-                      )}
-                    </div>
-                    <span
-                      className={`ml-2 text-[20px] font-bold  ${
-                        item.checked
-                          ? "line-through text-[#D1D2DA] "
-                          : "text-secondery"
-                      } `}
-                    >
-                      {item.name}
-                    </span>
-                  </label>
-                  <button onClick={() => handleRemove(index)} className="p-2">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-[#494C6B]"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-
-          {/* filtering listed task */}
-          <div className=" w-full flex justify-between  items-center text-secondery h-[50px] px-4">
-            <p className="font-medium">{filteredTodo.length} items left</p>
-            <div className=" font-semibold flex space-x-4 max-sm:hidden">
-              <button
-                onClick={() => setFilterStatus("all")}
-                className={`${filterStatus == "all" ? "text-primary" : ""}`}
-              >
-                All
-              </button>
-              <button
-                onClick={() => setFilterStatus("active")}
-                className={`${filterStatus == "active" ? "text-primary" : ""}`}
-              >
-                Active
-              </button>
-              <button
-                onClick={() => setFilterStatus("completed")}
-                className={`${
-                  filterStatus == "completed" ? "text-primary" : ""
-                }`}
-              >
-                Completed
-              </button>
-            </div>
-            <button
-              onClick={() =>
-                setTodo((prev) => prev.filter((item) => !item.checked))
-              }
-              className="font-medium"
+      <div className=" w-[85%] sm:w-[500px]  h-fit self-center rounded-[6px] bg-white shadow-2xl ">
+        {/* lising field */}
+        {filteredTodo.map((item, index) => {
+          return (
+            <div
+              className="h-[60px] w-full  bg-white  self-center border-b-[0.5px] rounded-t-[6px] border-b-gray-400 mb-2"
+              key={index}
             >
-              Clear Completed
+              <div className="flex items-center font-josefin">
+                <label className="relative flex space-x-3 mr-auto  items-center cursor-pointer pl-[25px]">
+                  <input
+                    type="checkbox"
+                    checked={item.checked}
+                    onChange={() => handleChecker(index)}
+                    className="peer hidden"
+                  />
+                  <div className="w-6 h-6 rounded-full border-2 border-gray-300 peer-checked:bg-primary transition-all duration-200 flex items-center justify-center">
+                    {item.checked && (
+                      <svg
+                        className="w-3 h-3 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M5 13l4 4L19 7" />
+                      </svg>
+                    )}
+                  </div>
+                  <span
+                    className={`ml-2 text-[20px] font-bold  ${
+                      item.checked
+                        ? "line-through text-[#D1D2DA] "
+                        : "text-secondery"
+                    } `}
+                  >
+                    {item.name}
+                  </span>
+                </label>
+                <button onClick={() => handleRemove(index)} className="p-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-[#494C6B]"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          );
+        })}
+
+        {/* filtering listed task */}
+        <div className=" w-full flex justify-between  items-center text-secondery h-[50px] px-4">
+          <p className="font-medium">{filteredTodo.length} items left</p>
+          <div className=" font-semibold flex space-x-4 max-sm:hidden">
+            <button
+              onClick={() => setFilterStatus("all")}
+              className={`${filterStatus == "all" ? "text-primary" : ""}`}
+            >
+              All
+            </button>
+            <button
+              onClick={() => setFilterStatus("active")}
+              className={`${filterStatus == "active" ? "text-primary" : ""}`}
+            >
+              Active
+            </button>
+            <button
+              onClick={() => setFilterStatus("completed")}
+              className={`${filterStatus == "completed" ? "text-primary" : ""}`}
+            >
+              Completed
             </button>
           </div>
-        </div>
-
-        {/* filtering listed task for mobile version*/}
-        <div className="w-[85%] bg-white space-x-6 self-center shadow-2xl rounded-[6px] mt-4   flex justify-between items-center text-secondery h-[50px] px-16 font-semibold sm:hidden ">
-          <button className="text-primary">All</button>
-          <button className="">Active </button>
-          <button className="">Completed</button>
+          <button
+            onClick={() =>
+              setTodo((prev) => prev.filter((item) => !item.checked))
+            }
+            className="font-medium"
+          >
+            Clear Completed
+          </button>
         </div>
       </div>
 
+      {/* filtering listed task for mobile version*/}
+      <div className="w-[85%] bg-white space-x-6 self-center shadow-2xl rounded-[6px] mt-4   flex justify-between items-center text-secondery h-[50px] px-16 font-semibold sm:hidden ">
+        <button className="text-primary">All</button>
+        <button className="">Active </button>
+        <button className="">Completed</button>
+      </div>
+    </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // "use client";
 // import { useState } from "react";

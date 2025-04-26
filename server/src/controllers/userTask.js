@@ -13,9 +13,9 @@ export const taskController = async (req, res) => {
     });
     
     
-    res.status(201).json({message:newTaskList});
+    res.status(201).json({message:"Task list created successfully", newTaskList });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error creating task list" });
+    res.status(500).json({error: "Error creating task list" });
   }
 };
