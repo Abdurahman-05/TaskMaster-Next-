@@ -123,7 +123,8 @@ export default function Login() {
             <p className="text-gray-500 text-[24px] sm:text-xl font-josefin text-center">
               don't have an account!
             </p>
-            <button className="font-bold text-[24px] sm:text-xl text-primary pb-7">
+            <button type="button" className="font-bold text-[24px] sm:text-xl text-primary pb-7" 
+            onClick={() => router.push("/signup")}>
               Signup
             </button>
           </div>

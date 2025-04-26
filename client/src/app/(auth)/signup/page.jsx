@@ -5,7 +5,10 @@ import { handleClientScriptLoad } from "next/script";
 import React, { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+
 export default function Signup() {
+  const router = useRouter();
   const { lang, setLang } = useAppContext();
   const [ShowPwd, setShowPwd] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -47,14 +50,15 @@ export default function Signup() {
       });
 
       const data = await res.json();
-     
 
-      if(!res.ok){
+      if (!res.ok) {
         alert(data.error);
         return;
+      } else {
+        alert("User registered successfully");
+        router.push("/homepage");
+        localStorage.setItem("accessToken", data.accessToken);
       }
-
-      alert("User registered successfully");
     } catch (err) {
       console.error("Error:", err);
     }
@@ -162,7 +166,9 @@ export default function Signup() {
               <p className="text-gray-500 text-2xl font-josefin text-center">
                 Alrady have an account!
               </p>
-              <button className="font-bold text-2xl text-primary pb-7">
+              <button className="font-bold text-2xl text-primary pb-7"
+               type="button"
+               onClick={() => router.push("/login")}>
                 Login
               </button>
             </div>
@@ -231,7 +237,9 @@ export default function Signup() {
               <p className="text-gray-500 text-xl font-josefin text-center">
                 Alrady have an account!
               </p>
-              <button className="font-bold text-xl text-primary pb-10">
+              <button className="font-bold text-xl text-primary pb-10"
+               type="button"
+              onClick={() => router.push("/login")}>
                 Login
               </button>
             </div>

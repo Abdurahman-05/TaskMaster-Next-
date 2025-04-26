@@ -35,9 +35,9 @@ const registerController = async (req, res) => {
       {
         id: newUser.id,
         username: newUser.username,
+        email: newUser.email,
       },
-      process.env.ACCESS_TOKEN,
-      { expiresIn: "5m" }
+      process.env.ACCESS_TOKEN
     );
 
     return res
@@ -71,9 +71,9 @@ const loginController = async (req, res) => {
       {
         id: user.id,
         username: user.username,
+        email: user.email,
       },
-      process.env.ACCESS_TOKEN,
-      { expiresIn: "5m" }
+      process.env.ACCESS_TOKEN
     );
 
     return res.json({ accessToken, message: "Login successful" });
