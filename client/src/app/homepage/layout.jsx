@@ -19,8 +19,8 @@ const geistMono = Geist_Mono({
 
 export default function NavLayout({ children }) {
   const [isUserOpen, setIsUserOpen] = useState(false);
-  const { lang,theme,handleLang,handleTheme } = useAppContext();
- 
+  const { lang, theme, handleLang, handleTheme } = useAppContext();
+
   const router = useRouter();
 
   const [username, setUsername] = useState(null);
@@ -44,15 +44,12 @@ export default function NavLayout({ children }) {
   }, []);
 
   useEffect(() => {
-    if(isUserOpen){
+    if (isUserOpen) {
       setTimeout(() => {
         setIsUserOpen(false);
-      },5000);
-    };
-  
+      }, 5000);
+    }
   }, [isUserOpen]);
-
-
 
   const handleUser = () => {
     setIsUserOpen((prev) => !prev);
@@ -61,12 +58,26 @@ export default function NavLayout({ children }) {
   return (
     <div className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
       <ProtectedRoute>
-        <nav className="h-[62px] w-full flex items-center dark:bg-darkPrimary relative">
-          <div className="ml-5">
-            <img src="/images/h_page/logo-pink.svg" alt="logo" />
+        <nav
+          className={`h-[62px] w-full flex items-center dark:bg-darkPrimary relative ${
+            lang == "En" ? "flex-row-reverse" : ""
+          }`}
+        >
+          <div
+            className={`flex ${
+              lang == "En" ? "flex-row-reverse pr-4 ml-auto" : "mr-auto"
+            }`}
+          >
+            <div className="ml-5">
+              <img src="/images/h_page/logo-pink.svg" alt="logo" />
+            </div>
+            <h1 className="mr-auto ml-2 text-2xl text-primary">Your Notes</h1>
           </div>
-          <h1 className="mr-auto ml-2 text-2xl text-primary">Your Notes</h1>
-          <div className="flex space-x-4 mr-6">
+          <div
+            className={`flex gap-8   ${
+              lang == "En" ? "flex-row-reverse pr-4 ml-6" : "mr-6"
+            }`}
+          >
             <button
               onClick={handleLang}
               className="font-poppins text-3xl text-primary font-bold cursor-pointer"
@@ -93,8 +104,12 @@ export default function NavLayout({ children }) {
           sm:w-[300px] sm:h-fit sm:rounded-2xl  sm:bg-white dark:bg-[rgba(0,0,0,0.8)] sm:top-[65px] sm:right-[20px] sm:px-3 sm:py-3 sm:space-y-1 sm:min-h-0
           "
             >
-              <p className=" font-bold text-primary text-2xl pb-5 text-left sm:pl-2 sm:pb-8  sm:mb-auto">
-                hi {username}
+              <p
+                className={`font-bold text-primary text-2xl pb-5 text-left sm:pl-2 sm:pb-8  sm:mb-auto flex gap-2 ${
+                  lang == "En" ? "flex-row-reverse " : ""
+                }`}
+              >
+                <span>{lang == "En" ? "مرحباً" : "hi"}</span> {username}
               </p>
               <button
                 onClick={() => {
@@ -103,7 +118,7 @@ export default function NavLayout({ children }) {
                 }}
                 className="bg-[#7C8495] dark:bg-white dark:text-black text-2xl py-4 px-6 rounded-md w-[321px] font-medium sm:py-3 sm:px-2 sm:w-full  text-white"
               >
-                Modify user info
+                {lang == "En" ? "تعديل بيانات الحساب" : "Modify user info"}
               </button>
               <button
                 onClick={() => {
@@ -113,7 +128,7 @@ export default function NavLayout({ children }) {
                 }}
                 className="bg-primary  text-white text-2xl py-4 px-6 rounded-md w-[321px] font-medium sm:w-full sm:py-3 sm:px-2 "
               >
-                Logout
+                {lang == "En" ? "تسجيل الخروج" : "Logout"}
               </button>
             </div>
           )}

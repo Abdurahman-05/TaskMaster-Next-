@@ -67,17 +67,19 @@ export default function Signup() {
   return (
     <div
       style={{ backgroundImage: "url('/images/h_page/bg_img.svg')" }}
-      className="h-fit w-full bg-no-repeat bg-cover bg-center   px-4 pt-7 pb-40 sm:flex sm:justify-center sm:items-center"
+      className={`h-fit w-full bg-no-repeat bg-cover bg-center   px-4 pt-7 pb-40 sm:flex sm:justify-center sm:items-center ${
+        lang == "En" ? "flex flex-col sm:flex-row-reverse" : ""
+      }`}
     >
       <div
         className={`w-full bg-no-repeat bg-cover bg-top h-[280px] p-12  sm:p-4 drop-shadow-lg sm:max-w-[500px] ${
-          currentPage == 1 ? "sm:h-[650px]" : "sm:h-[720px]"
+          currentPage == 1 ? "sm:h-[570px]" : "sm:h-[610px]"
         } z-[100] flex flex-col justify-center items-center relative`}
         style={{ backgroundImage: "url('/images/aut/insidecover.png')" }}
       >
         <div
-          className={`w-full h-full z-[1000] bg-[rgba(255,255,255,0.3)]  backdrop-blur-sm flex flex-col justify-center items-center gap-5 sm:max-w-[440px] sm:h-[525px] ${
-            currentPage == 1 ? "sm:h-[525px]" : "sm:h-[600px]"
+          className={`w-full h-full z-[1000] bg-[rgba(255,255,255,0.3)]  backdrop-blur-sm flex flex-col justify-center items-center gap-5 sm:max-w-[440px]  ${
+            currentPage == 1 ? "sm:h-[450px]" : "sm:h-[480px]"
           }`}
         >
           <img src="/images/aut/logo.svg" alt="" />
@@ -88,24 +90,32 @@ export default function Signup() {
 
         <button
           onClick={handleLang}
-          className="font-poppins text-3xl text-white font-bold cursor-pointer absolute bottom-1 left-2"
+          className={`font-poppins text-3xl text-white font-bold cursor-pointer absolute ${
+            lang == "Ar" ? "bottom-1 left-2" : "bottom-1 right-2"
+          }`}
         >
           {lang}
         </button>
       </div>
 
       {currentPage == 1 && (
-        <div className="w-full bg-white h-fit drop-shadow-2xl pb-7 sm:h-[650px] sm:max-w-[500px]">
-          <div className="pt-[45px] text-center font-bold text-4xl text-primary">
-            Signup
+        <div className="w-full bg-white h-fit drop-shadow-2xl pb-7 sm:h-[570px] sm:max-w-[500px]">
+          <div className="pt-[30px] text-center font-bold text-4xl text-primary">
+            {lang == "En" ? "إنشاء حساب" : "Signup"}
           </div>
           <form
             autoComplete="off"
             action=""
-            className="flex flex-col px-3 space-y-5 "
+            className="flex flex-col px-3 space-y-2 "
           >
             <div className="flex flex-col text-secondery font-bold gap-3 text-2xl">
-              <p className="text-2xl">Email</p>
+              <p
+                className={`text-2xl ${
+                  lang == "En" ? "text-right" : "text-left "
+                }`}
+              >
+                {lang == "En" ? "الحساب" : "Email"}
+              </p>
               <input
                 type="email"
                 name="email"
@@ -113,11 +123,20 @@ export default function Signup() {
                 onChange={handleChange}
                 value={formData.email}
                 required
-                className="h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white drop-shadow-md"
+                className={`h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white  ${
+                  lang == "En" ? "text-right  pr-3" : "text-left"
+                } `}
               />
             </div>
             <div className="flex flex-col text-secondery font-bold gap-3 text-2xl relative">
-              <p className="text-2xl">Password</p>
+              <p
+                className={`text-2xl ${
+                  lang == "En" ? "text-right" : "text-left "
+                }`}
+              >
+                {lang == "En" ? "الرقم السري" : "Password"}
+              </p>
+
               <input
                 type={ShowPwd ? "text" : "password"}
                 name="password"
@@ -125,51 +144,76 @@ export default function Signup() {
                 onChange={handleChange}
                 value={formData.password}
                 required
-                className="h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white"
+                className={`h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white  ${
+                  lang == "En" ? "text-right  pr-3" : "text-left"
+                } `}
               />
               <button
                 type="button"
                 onClick={() => setShowPwd(!ShowPwd)}
-                className="absolute bottom-4 right-2"
+                className={`absolute ${
+                  lang == "En" ? "bottom-4 left-2 pl-2" : "bottom-4 right-2"
+                } `}
               >
                 <img src="/images/aut/Vector.svg" alt="" />
               </button>
             </div>
-            <div className="flex flex-col text-secondery font-bold gap-3 pb-7 relative ">
-              <p className="text-2xl">Confirm password</p>
-              <input
-                type={ShowPwd ? "text" : "password"}
-                name="rePassword"
-                autoComplete="new-password"
-                value={formData.rePassword}
-                required
-                onChange={handleChange}
-                className="h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPwd(!ShowPwd)}
-                className="absolute bottom-10 right-2"
+            <div className="flex flex-col text-secondery font-bold gap-3 pb-4 relative ">
+              <p
+                className={`text-2xl ${
+                  lang == "En" ? "text-right" : "text-left "
+                }`}
               >
-                <img src="/images/aut/Vector.svg" alt="" />
-              </button>
+                {lang == "En" ? "تأكيد الرقم السري" : "Confirm password"}
+              </p>
+              <div
+                className={`flex  flex-col ${
+                  lang == "En" ? "flex-row-reverse text-right" : "text-left"
+                }`}
+              >
+                <input
+                  type={ShowPwd ? "text" : "password"}
+                  name="rePassword"
+                  autoComplete="new-password"
+                  value={formData.rePassword}
+                  required
+                  onChange={handleChange}
+                  className={`h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white  ${
+                    lang == "En" ? "text-right  pr-3" : "text-left"
+                  } `}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPwd(!ShowPwd)}
+                  className={`absolute ${
+                    lang == "En" ? "bottom-8 left-2 pl-2" : "bottom-8 right-2"
+                  } `}
+                >
+                  <img src="/images/aut/Vector.svg" alt="" />
+                </button>
+              </div>
             </div>
 
             <button
               onClick={handlePage}
               type="button"
-              className="w-full bg-primary text-white font-bold text-2xl py-3 rounded-lg flex justify-center gap-3 items-center drop-shadow-md"
+              className={`w-full bg-primary text-white font-bold text-2xl py-3 rounded-lg flex justify-center gap-3 items-center drop-shadow-md ${
+                lang == "En" ? "flex-row-reverse" : "flex-row"
+              }`}
             >
-              Complete Signup <FaArrowRight />
+             <span>{lang == "En" ? "إكمال إنشاء الحساب" : "Complete Signup"}</span>
+             {lang == "En" ? <FaArrowLeft /> : <FaArrowRight />}
             </button>
-            <div className="space-y-3 flex flex-col justify-center pt-5">
+            <div className="space-y-1 flex flex-col justify-center pt-2">
               <p className="text-gray-500 text-2xl font-josefin text-center">
-                Alrady have an account!
+                {lang == "En" ? "تمتلك حساب بالفعل" : " Alrady have an account!"}
               </p>
-              <button className="font-bold text-2xl text-primary pb-7"
-               type="button"
-               onClick={() => router.push("/login")}>
-                Login
+              <button
+                className="font-bold text-2xl text-primary "
+                type="button"
+                onClick={() => router.push("/login")}
+              >
+                {lang == "En" ? "تسجيل دخول" : "Login"}
               </button>
             </div>
           </form>
@@ -177,17 +221,23 @@ export default function Signup() {
       )}
 
       {currentPage == 2 && (
-        <div className="w-full bg-white h-fit drop-shadow-2xl pb-7 sm:h-[720px] sm:max-w-[500px]">
-          <div className="pt-[45px] text-center font-bold text-4xl text-primary">
-            Complete Signup
+        <div className="w-full bg-white h-fit drop-shadow-2xl pb-7 sm:h-[610px] sm:max-w-[500px]">
+          <div className="pt-[25px] text-center font-bold text-4xl text-primary">
+            {lang == "En" ? "تسجيل دخول" : "Complete Signup"}
           </div>
           <form
             autoComplete="off"
             action=""
-            className="flex flex-col px-3 space-y-5 "
+            className="flex flex-col px-3 space-y-3 "
           >
             <div className="flex flex-col text-secondery font-bold gap-3 text-2xl">
-              <p className="text-xl pt-4">username</p>
+              <p
+                className={`text-xl pt-4  ${
+                  lang == "En" ? "text-right" : "text-left"
+                }`}
+              >
+                {lang == "En" ? "اسم المستخدم" : "Username"}
+              </p>
               <input
                 type="text"
                 autoComplete="off"
@@ -195,52 +245,78 @@ export default function Signup() {
                 value={formData.username}
                 required
                 name="username"
-                className="h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white drop-shadow-sm"
+                className={`h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white drop-shadow-sm ${
+                  lang == "En" ? "text-right  pr-3" : "text-left"
+                } `}
               />
             </div>
             <div className="flex flex-col text-secondery font-bold gap-3 text-2xl relative">
-              <p className="text-xl">phone</p>
+              <p
+                className={`text-xl  ${
+                  lang == "En" ? "text-right" : "text-left"
+                }`}
+              >
+                {lang == "En" ? "رقم الهاتف" : "Phone"}
+              </p>
               <input
                 type="text"
                 name="phone"
                 onChange={handleChange}
                 value={formData.phone}
-                className="h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white"
+                className={`h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white drop-shadow-sm ${
+                  lang == "En" ? "text-right  pr-3" : "text-left"
+                } `}
               />
             </div>
-            <div className="flex flex-col text-secondery font-bold gap-3 pb-7 relative ">
-              <p className="text-xl">Birthday Year</p>
+            <div className="flex flex-col text-secondery font-bold gap-3 pb-3 relative ">
+              <p
+                className={`text-xl ${
+                  lang == "En" ? "text-right" : "text-left"
+                }`}
+              >
+                {lang == "En" ? "سنة الميلاد" : "Birthday Year"}
+              </p>
               <input
                 type="text"
                 name="dateOfBirth"
                 value={formData.dateOfBirth}
                 onChange={handleChange}
-                className="h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white"
+                className={`h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white drop-shadow-sm ${
+                  lang == "En" ? "text-right  pr-3" : "text-left"
+                } `}
               />
             </div>
 
             <button
-              className="w-full bg-primary text-white font-bold text-2xl py-3 rounded-lg flex justify-center gap-3 items-center drop-shadow-md"
+              className={`w-full bg-primary text-white font-bold text-2xl py-4 rounded-lg flex justify-center gap-3 items-center drop-shadow-md ${
+                lang == "En" ? "flex-row-reverse" : "flex-row"
+              }`}
               onClick={handleSubmit}
               type="submit"
             >
-              Complete Signup <FaArrowRight />
+              <span>{lang == "En" ? "إكمال إنشاء الحساب" : "Complete Signup"}</span>
+              {lang == "En" ? <FaArrowLeft /> : <FaArrowRight />}
             </button>
             <button
-              className="w-full bg-gray-500 text-white font-bold text-2xl py-3 rounded-lg flex justify-center gap-5 items-center drop-shadow-md"
+              className={`w-full bg-gray-500 text-white font-bold text-2xl py-4 rounded-lg flex justify-center gap-5 items-center drop-shadow-md ${
+                lang == "En" ? "flex-row-reverse" : "flex-row"
+              }`}
               type="button"
               onClick={handlePage}
             >
-              <p>Back</p> <FaArrowLeft />
+              <span>{lang == "En" ? "للخلف" : "Back"}</span>
+              {lang == "En" ? <FaArrowRight /> : <FaArrowLeft />}
             </button>
-            <div className="space-y-3 flex space-x-2 justify-center pt-5">
-              <p className="text-gray-500 text-xl font-josefin text-center">
-                Alrady have an account!
+            <div className={`space-y-3 flex gap-2 justify-center pt-2 ${lang == "En"?"flex-row-reverse":"flex-row"}`}>
+              <p className="text-gray-500 text-2xl font-josefin text-center">
+                {lang == "En" ? "تمتلك حساب بالفعل!" : "Alrady have an account!"}
               </p>
-              <button className="font-bold text-xl text-primary pb-10"
-               type="button"
-              onClick={() => router.push("/login")}>
-                Login
+              <button
+                className="font-bold text-xl text-primary pb-10"
+                type="button"
+                onClick={() => router.push("/login")}
+              >
+                {lang == "En"? "تسجيل دخول" : "Login"}
               </button>
             </div>
           </form>

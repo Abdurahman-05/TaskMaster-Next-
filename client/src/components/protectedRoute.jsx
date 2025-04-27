@@ -19,6 +19,9 @@ const ProtectedRoute = ({ children }) => {
       setIsChecking(false); 
     }
   }, [router]);
+
+
+  
   
   if (isChecking) {
     return (

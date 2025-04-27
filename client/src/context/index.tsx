@@ -86,30 +86,33 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
 
-// Create the context
+
 const appContext = createContext<any>(undefined);
 
 export function AppWrapper({ children }: { children: React.ReactNode }) {
   const [lang, setLang] = useState<string>("Ar");
   const [theme, setTheme] = useState<string>("light");
+  const [loading, setLoading] = useState<boolean>(true);
 
-  // Initialize theme and lang from localStorage on the first render
   useEffect(() => {
     const storedLang = localStorage.getItem("lang") || "Ar";
     const storedTheme = localStorage.getItem("theme") || "light";
 
-    setLang(storedLang);  // Set initial lang state
-    setTheme(storedTheme); // Set initial theme state
+    setLang(storedLang);  
+    setTheme(storedTheme); 
+    
 
-    // Apply the theme to <html> element based on stored theme
+
     if (storedTheme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
-  }, []); // Empty dependency array to run only once
+    setLoading(false);
+  }, []);
+  
 
-  // Update theme dynamically when `theme` state changes
+
   useEffect(() => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
@@ -117,23 +120,24 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
       document.documentElement.classList.remove("dark");
     }
 
-    // Persist the theme change in localStorage
     localStorage.setItem("theme", theme);
-  }, [theme]); // Only run when `theme` changes
+  }, [theme]); 
 
-  // Toggle language function
+
   const handleLang = () => {
     const newLang = lang === "Ar" ? "En" : "Ar";
     setLang(newLang);
-    localStorage.setItem("lang", newLang);  // Store updated lang in localStorage
+    localStorage.setItem("lang", newLang);  
   };
 
-  // Toggle theme function
+
   const handleTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
-    setTheme(newTheme); // This triggers the useEffect that applies/removes the `dark` class
+    setTheme(newTheme); 
   };
-
+  
+ 
+  
   return (
     <appContext.Provider value={{ lang, handleLang, theme, handleTheme }}>
       {children}
