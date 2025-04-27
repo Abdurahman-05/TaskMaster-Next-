@@ -84,21 +84,21 @@ export default function Home() {
     setTodo(updatedTodos);
   };
 
-  const { lang, setLang } = useAppContext();
+  
 
   return (
-    <div className="min-h-screen pb-[50px] w-full flex flex-col bg-[#FAFAFA] ">
+    <div className="min-h-screen pb-[50px] w-full flex flex-col bg-[#FAFAFA] dark:bg-black">
       <div
         className="h-[250px] sm:h-[350px]  w-full  bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url('/images/h_page/bg_img.svg')" }}
       ></div>
 
       {/* writing field */}
-      <div className=" w-[85%] font-josefin min-[900px]:mt-[-160px] sm:w-[500px] rounded-[10px] relative  bg-white self-center mt-[-205px] flex pl-4 pr-2 py-2 mb-12  sm:mb-6 ">
+      <div className=" w-[85%] font-josefin min-[900px]:mt-[-160px] sm:w-[500px] rounded-[10px] relative  bg-white dark:bg-darkSecondery self-center mt-[-205px] flex pl-4 pr-2 py-2 mb-12  sm:mb-6 ">
         <input
           type="text"
           placeholder="Create a new todo..."
-          className="placeholder:font-josefin placeholder:text-[18px] placeholder:font-normal w-full outline-none text-secondery text-2xl font-semibold"
+          className="placeholder:font-josefin placeholder:text-[18px] placeholder:font-normal w-full outline-none text-secondery dark:text-[#C8CBE7] text-2xl font-semibold"
           onChange={(e) => setValue(e.target.value)}
           value={value}
         />
@@ -107,12 +107,12 @@ export default function Home() {
         </button>
       </div>
 
-      <div className=" w-[85%] sm:w-[500px]  h-fit self-center rounded-[6px] bg-white shadow-2xl ">
+      <div className=" w-[85%] sm:w-[500px]  h-fit self-center rounded-[6px] bg-white dark:bg-darkSecondery shadow-2xl ">
         {/* lising field */}
         {filteredTodo.map((item, index) => {
           return (
             <div
-              className="h-[60px] w-full  bg-white  self-center border-b-[0.5px] rounded-t-[6px] border-b-gray-400 mb-2"
+              className="h-[60px] w-full  bg-white dark:bg-darkSecondery self-center border-b-[0.5px] rounded-t-[6px] border-b-gray-400 mb-2"
               key={index}
             >
               <div className="flex items-center font-josefin">
@@ -126,10 +126,10 @@ export default function Home() {
                   <div className="w-6 h-6 rounded-full border-2 border-gray-300 peer-checked:bg-primary transition-all duration-200 flex items-center justify-center">
                     {item.checked && (
                       <svg
-                        className="w-3 h-3 text-white"
+                        className="w-5 h-5 text-white"
                         fill="none"
                         stroke="currentColor"
-                        strokeWidth="3"
+                        strokeWidth=""
                         viewBox="0 0 24 24"
                       >
                         <path d="M5 13l4 4L19 7" />
@@ -137,10 +137,10 @@ export default function Home() {
                     )}
                   </div>
                   <span
-                    className={`ml-2 text-[20px] font-bold  ${
+                    className={`ml-2 text-[24px] font-bold  ${
                       item.checked
-                        ? "line-through text-[#D1D2DA] "
-                        : "text-secondery"
+                        ? "line-through text-[#D1D2DA] dark:text-[#4D5067]"
+                        : "text-secondery dark:text-[#C8CBE7] "
                     } `}
                   >
                     {item.name}
@@ -149,7 +149,7 @@ export default function Home() {
                 <button onClick={() => handleRemove(index)} className="p-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-[#494C6B]"
+                    className="h-8 w-8 text-[#494C6B] dark:text-[#5B5E7E]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -168,7 +168,7 @@ export default function Home() {
         })}
 
         {/* filtering listed task */}
-        <div className=" w-full flex justify-between  items-center text-secondery h-[50px] px-4">
+        <div className=" w-full flex justify-between  items-center text-secondery dark:text-[#C8CBE7] h-[50px] px-4">
           <p className="font-medium">{filteredTodo.length} items left</p>
           <div className=" font-semibold flex space-x-4 max-sm:hidden">
             <button
@@ -202,7 +202,7 @@ export default function Home() {
       </div>
 
       {/* filtering listed task for mobile version*/}
-      <div className="w-[85%] bg-white space-x-6 self-center shadow-2xl rounded-[6px] mt-4   flex justify-between items-center text-secondery h-[50px] px-16 font-semibold sm:hidden ">
+      <div className="w-[85%] bg-white dark:bg-darkSecondery dark:text-[#C8CBE7] space-x-6 self-center shadow-2xl rounded-[6px] mt-4   flex justify-between items-center text-secondery h-[50px] px-16 font-semibold sm:hidden ">
         <button className="text-primary">All</button>
         <button className="">Active </button>
         <button className="">Completed</button>

@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-poppins: "Poppins","sans-serif";
   --font-lato: "Lato","sans-serif";
@@ -8,6 +10,8 @@
   --breakpoint-3xl: 120rem;
   --color-primary : #D375B9;
   --color-secondery : #494C6B;
+  --color-darkPrimary : #241229;
+  --color-darkSecondery : #25273D;
 
   --color-avocado-200: oklch(0.98 0.04 113.22);
   --color-avocado-300: oklch(0.94 0.11 115.03);

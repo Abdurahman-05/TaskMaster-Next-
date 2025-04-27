@@ -50,49 +50,49 @@ export default function Modify() {
   const handleChange = (e) =>
     setData({ ...data, [e.target.name]: e.target.value });
 
-  const { lang, setLang } = useAppContext();
+  
 
   return (
-    <div className="min-h-screen pb-[50px] w-full flex flex-col bg-[#FAFAFA] ">
+    <div className="min-h-screen pb-[50px] w-full flex flex-col bg-[#FAFAFA] dark:bg-darkPrimary ">
       <div
         className="h-[250px] sm:h-[350px]  w-full  bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url('/images/h_page/bg_img.svg')" }}
       ></div>
 
       {/* writing field */}
-      <div className=" w-[85%] font-josefin min-[900px]:mt-[-160px] sm:w-[650px] rounded-[6px] relative  bg-white text-center self-center mt-[-205px] flex pl-4 pr-2 py-4 mb-12  sm:mb-6 ">
+      <div className=" w-[85%] font-josefin min-[900px]:mt-[-160px] sm:w-[650px] rounded-[6px] relative  bg-white dark:bg-darkSecondery text-center self-center mt-[-205px] flex pl-4 pr-2 py-4 mb-12  sm:mb-6 ">
         <p className="text-center mx-auto text-2xl text-primary font-semibold">
           Modify User Information
         </p>
       </div>
 
-      <div className=" w-[85%] sm:w-[650px]  h-fit self-center rounded-[6px] bg-white drop-shadow-xl pb-8 pt-8">
+      <div className=" w-[85%] sm:w-[650px]  h-fit self-center rounded-[6px] bg-white dark:bg-darkSecondery drop-shadow-xl pb-8 pt-8">
         <form
           autoComplete="off"
           action=""
           className="flex flex-col px-6 sm:px-12 md:px-20 space-y-5  "
         >
           <div>
-            <div className="flex flex-col text-secondery font-bold gap-3 text-2xl">
-              <p className="text-xl">Email</p>
+            <div className="flex flex-col text-secondery  font-bold gap-3 text-2xl">
+              <p className="text-xl dark:text-white">Email</p>
               <input
                 type="email"
                 name="email"
                 value={data.email}
                 onChange={handleChange}
                 autoComplete="email"
-                className="h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white drop-shadow-md"
+                className="h-[50px] w-full bg-white dark:bg-[#404363] border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white drop-shadow-md"
               />
             </div>
             <div className="flex flex-col text-secondery font-bold gap-3 text-2xl relative">
-              <p className="text-xl">Password</p>
+              <p className="text-xl dark:text-white">Password</p>
               <input
                 type={ShowPwd ? "text" : "password"}
                 name="password"
                 value={data.password}
                 onChange={handleChange}
                 autoComplete="new-password"
-                className="h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white"
+                className="h-[50px] w-full bg-white dark:bg-[#404363] border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white"
               />
               <button
                 type="button"
@@ -103,37 +103,41 @@ export default function Modify() {
               </button>
             </div>
             <div className="flex flex-col text-secondery font-bold gap-3 text-2xl">
-              <p className="text-xl pt-4">Username</p>
+              <p className="text-xl pt-4 dark:text-white">Username</p>
               <input
                 type="text"
                 autoComplete="off"
                 name="username"
                 value={data.username}
                 onChange={handleChange}
-                className="h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white drop-shadow-sm"
+                className="h-[50px] w-full bg-white dark:bg-[#404363] border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white drop-shadow-sm"
               />
             </div>
             <div className="flex flex-col text-secondery font-bold gap-3 text-2xl relative">
-              <p className="text-xl">Phone</p>
+              <p className="text-xl dark:text-white">Phone</p>
               <input
                 type="text"
                 name="phone"
                 value={data.phone}
                 onChange={handleChange}
-                className="h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white"
+                className="h-[50px] w-full bg-white dark:bg-[#404363] border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white"
               />
             </div>
             <div className="flex flex-col text-secondery font-bold gap-3 pb-7 relative ">
-              <p className="text-xl">Birthday Year</p>
+              <p className="text-xl dark:text-white">Birthday Year</p>
               <input
                 type="text"
                 name="dateOfBirth"
                 value={data.dateOfBirth}
                 onChange={handleChange}
-                className="h-[50px] w-full bg-white  border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white"
+                className="h-[50px] w-full bg-white dark:bg-[#404363] border-[0.5px] border-[rgba(73,76,107,0.2)] rounded-lg outline-none pl-2 text-secondery font-medium text-xl active:bg-white"
               />
             </div>
           </div>
+        </form>
+      </div>
+
+      {/* filtering listed task for mobile version*/}
           <div className="w-[85%] sm:w-[650px]  bg-primary space-x-6 self-center shadow-2xl rounded-[6px]   flex justify-between items-center text-white py-5 my-5 font-semibold  ">
             <button
               type="submit"
@@ -143,10 +147,6 @@ export default function Modify() {
               Save Change
             </button>
           </div>
-        </form>
-      </div>
-
-      {/* filtering listed task for mobile version*/}
     </div>
   );
 }

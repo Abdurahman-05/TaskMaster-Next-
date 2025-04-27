@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 
 export default function Signup() {
   const router = useRouter();
-  const { lang, setLang } = useAppContext();
+  const { lang, handleLang } = useAppContext();
   const [ShowPwd, setShowPwd] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [formData, setFormData] = useState({
@@ -87,7 +87,7 @@ export default function Signup() {
         </div>
 
         <button
-          onClick={() => setLang(lang == "Ar" ? "En" : "Ar")}
+          onClick={handleLang}
           className="font-poppins text-3xl text-white font-bold cursor-pointer absolute bottom-1 left-2"
         >
           {lang}
