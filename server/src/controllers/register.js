@@ -66,7 +66,6 @@ const loginController = async (req, res) => {
         error: "incorrect password!!!!!!",
       });
     }
-    console.log(typeof user.id)
     const accessToken = jwt.sign(
       {
         id: user.id,

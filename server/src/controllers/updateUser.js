@@ -58,16 +58,18 @@ import "dotenv/config";
     return res.status(500).json({ error: "Server error occurred" });
   }
 };
+
 const taskController = async (req, res) => {
    try {
     const list = await prisma.user.findUnique({where: {id: req.user.id}});
-    console.log(list.tasks);
-    
+
     return res.status(200).json({message:"Task list fetched successfully", tasks : list.tasks });
    } catch (error) {
     return res.status
    }
 }
+
+
 
 const userController = {
   updateController,
