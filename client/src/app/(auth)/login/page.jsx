@@ -31,7 +31,7 @@ export default function Login() {
 
     try {
       const res = await fetch(
-        "http://https://taskmaster-next-ryfm.onrender.com/login",
+        "https://taskmaster-next-ryfm.onrender.com/login",
         {
           method: "POST",
           headers: {
