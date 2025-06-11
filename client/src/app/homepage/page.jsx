@@ -35,7 +35,7 @@ export default function Home() {
   useEffect(() => {
     const loadTodo = async () => {
       try {
-        const response = await fetch("http://localhost:5000/task", {
+        const response = await fetch("https://taskmaster-next-ryfm.onrender.com/task", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
@@ -54,7 +54,7 @@ export default function Home() {
   useEffect(() => {
     const saveTodo = async () => {
       try {
-        await fetch("http://localhost:5000/user", {
+        await fetch("https://taskmaster-next-ryfm.onrender.com/user", {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

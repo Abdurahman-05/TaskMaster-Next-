@@ -41,13 +41,16 @@ export default function Signup() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData), // send formData to req.body
-      });
+      const res = await fetch(
+        "https://taskmaster-next-ryfm.onrender.com/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData), // send formData to req.body
+        }
+      );
 
       const data = await res.json();
 
@@ -201,12 +204,16 @@ export default function Signup() {
                 lang == "En" ? "flex-row-reverse" : "flex-row"
               }`}
             >
-             <span>{lang == "En" ? "إكمال إنشاء الحساب" : "Complete Signup"}</span>
-             {lang == "En" ? <FaArrowLeft /> : <FaArrowRight />}
+              <span>
+                {lang == "En" ? "إكمال إنشاء الحساب" : "Complete Signup"}
+              </span>
+              {lang == "En" ? <FaArrowLeft /> : <FaArrowRight />}
             </button>
             <div className="space-y-1 flex flex-col justify-center pt-2">
               <p className="text-gray-500 text-2xl font-josefin text-center">
-                {lang == "En" ? "تمتلك حساب بالفعل" : " Alrady have an account!"}
+                {lang == "En"
+                  ? "تمتلك حساب بالفعل"
+                  : " Alrady have an account!"}
               </p>
               <button
                 className="font-bold text-2xl text-primary "
@@ -294,7 +301,9 @@ export default function Signup() {
               onClick={handleSubmit}
               type="submit"
             >
-              <span>{lang == "En" ? "إكمال إنشاء الحساب" : "Complete Signup"}</span>
+              <span>
+                {lang == "En" ? "إكمال إنشاء الحساب" : "Complete Signup"}
+              </span>
               {lang == "En" ? <FaArrowLeft /> : <FaArrowRight />}
             </button>
             <button
@@ -307,16 +316,22 @@ export default function Signup() {
               <span>{lang == "En" ? "للخلف" : "Back"}</span>
               {lang == "En" ? <FaArrowRight /> : <FaArrowLeft />}
             </button>
-            <div className={`space-y-3 flex gap-2 justify-center pt-2 ${lang == "En"?"flex-row-reverse":"flex-row"}`}>
+            <div
+              className={`space-y-3 flex gap-2 justify-center pt-2 ${
+                lang == "En" ? "flex-row-reverse" : "flex-row"
+              }`}
+            >
               <p className="text-gray-500 text-2xl font-josefin text-center">
-                {lang == "En" ? "تمتلك حساب بالفعل!" : "Alrady have an account!"}
+                {lang == "En"
+                  ? "تمتلك حساب بالفعل!"
+                  : "Alrady have an account!"}
               </p>
               <button
                 className="font-bold text-xl text-primary pb-10"
                 type="button"
                 onClick={() => router.push("/login")}
               >
-                {lang == "En"? "تسجيل دخول" : "Login"}
+                {lang == "En" ? "تسجيل دخول" : "Login"}
               </button>
             </div>
           </form>
