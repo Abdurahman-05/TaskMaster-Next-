@@ -92,7 +92,7 @@ const appContext = createContext<any>(undefined);
 export function AppWrapper({ children }: { children: React.ReactNode }) {
   const [lang, setLang] = useState<string>("Ar");
   const [theme, setTheme] = useState<string>("light");
-  const [loading, setLoading] = useState<boolean>(true);
+
 
   useEffect(() => {
     const storedLang = localStorage.getItem("lang") || "Ar";
@@ -108,7 +108,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
     } else {
       document.documentElement.classList.remove("dark");
     }
-    setLoading(false);
+
   }, []);
   
 
