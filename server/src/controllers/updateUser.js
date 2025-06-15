@@ -65,7 +65,7 @@ const taskController = async (req, res) => {
 
     return res.status(200).json({message:"Task list fetched successfully", tasks : list.tasks });
    } catch (error) {
-    return res.status
+    return res.status 
    }
 }
 

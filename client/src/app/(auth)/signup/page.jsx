@@ -2,45 +2,85 @@
 
 import { useAppContext } from "@/context";
 import { handleClientScriptLoad } from "next/script";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import Loading from "@/app/loading";
+import { stringify } from "querystring";
+import toast, { Toaster } from 'react-hot-toast';
+
+const defaultData = {
+ email: "",
+ password: "",
+ rePassword: "",
+ phone: "",
+ username: "",
+ dateOfBirth: "",
+};
 
 export default function Signup() {
   const router = useRouter();
   const { lang, handleLang } = useAppContext();
+  const [loading, setLoading] = useState(false);
   const [ShowPwd, setShowPwd] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    rePassword: "",
-    phone: "",
-    username: "",
-    dateOfBirth: "",
-  });
+   const [currentPage, setCurrentPage] = useState(1);
+
+  // On mount, load currentPage from localStorage (client only)
+  useEffect(() => {
+    const savedPage = localStorage.getItem("currentPage");
+    if (savedPage) {
+      setCurrentPage(Number(savedPage));
+    }
+  }, []);
+
+  // Save currentPage when it changes
+  useEffect(() => {
+    localStorage.setItem("currentPage", currentPage);
+  }, [currentPage]);
+
+   const [formData, setFormData] = useState(defaultData);
+
+  // On mount, load formData from localStorage
+  useEffect(() => {
+    const savedData = localStorage.getItem("userData");
+    if (savedData) {
+      setFormData(JSON.parse(savedData));
+    }
+  }, []);
+
+ 
+  useEffect(() => {
+    localStorage.setItem("userData", JSON.stringify(formData));
+  }, [formData]);
 
   const handlePage = () => {
     if (formData.password !== formData.rePassword) {
-      alert("Passwords do not match!");
+      toast.error("Passwords do not match!");
       return;
     }
     if (!formData.email || !formData.password || !formData.rePassword) {
-      alert("pls fill the requirement!!!!!!!");
+      toast.error("pls fill the requirement!!!!!!!");
       return;
     }
-
+    const userData = JSON.stringify(formData);
+    localStorage.setItem("userData", userData);
     setCurrentPage((prevPage) => (prevPage === 1 ? 2 : 1));
   };
+
   const handleChange = (e) => {
+  
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
+     
     e.preventDefault();
-
+    setLoading(true);
+    
     try {
+      localStorage.setItem("userData", JSON.stringify(formData));
+      const userData = JSON.parse(localStorage.getItem("userData"));
       const res = await fetch(
         "https://taskmaster-next-ryfm.onrender.com/signup",
         {
@@ -48,22 +88,31 @@ export default function Signup() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData), // send formData to req.body
+          body: JSON.stringify(userData), // send formData to req.body
         }
       );
 
       const data = await res.json();
-
+      if(formData.username == "" || formData.phone == ""){
+      toast.error("pls fill the requirement!!!!!!!");
+      return;
+    }
       if (!res.ok) {
-        alert(data.error);
+        toast.error(data.error);
         return;
       } else {
-        alert("User registered successfully");
-        router.push("/homepage");
-        localStorage.setItem("accessToken", data.accessToken);
+        toast.success("User registered successfully");
+        setTimeout(() => {
+    localStorage.setItem("accessToken", data.accessToken);
+    localStorage.removeItem('userData');
+    localStorage.setItem('currentPage', 1);
+    router.push("/homepage");
+  }, 500);
       }
     } catch (err) {
       console.error("Error:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -185,15 +234,7 @@ export default function Signup() {
                     lang == "En" ? "text-right  pr-3" : "text-left"
                   } `}
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPwd(!ShowPwd)}
-                  className={`absolute ${
-                    lang == "En" ? "bottom-8 left-2 pl-2" : "bottom-8 right-2"
-                  } `}
-                >
-                  <img src="/images/aut/Vector.svg" alt="" />
-                </button>
+               
               </div>
             </div>
 
@@ -301,10 +342,21 @@ export default function Signup() {
               onClick={handleSubmit}
               type="submit"
             >
-              <span>
-                {lang == "En" ? "إكمال إنشاء الحساب" : "Complete Signup"}
-              </span>
-              {lang == "En" ? <FaArrowLeft /> : <FaArrowRight />}
+              {loading ? (
+                <div className="flex justify-center items-center">
+                  <div className="w-6 h-6 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
+                </div>
+              ) : lang == "Ar" ? (
+                <>
+                  <span>Complete Signup</span>
+                  <FaArrowRight />
+                </>
+              ) : (
+                <>
+                  <span>"إكمال إنشاء الحساب"</span>
+                  <FaArrowLeft />
+                </>
+              )}
             </button>
             <button
               className={`w-full bg-gray-500 text-white font-bold text-2xl py-4 rounded-lg flex justify-center gap-5 items-center drop-shadow-md ${

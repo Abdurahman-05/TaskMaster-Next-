@@ -6,8 +6,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { resolve } from "path";
 import Loading from "@/app/loading";
-import Alert from "@/components/CustomAlert";
-// import LoadingSpinner from '../../../components/LoadingSpinner.js';
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Login() {
   const router = useRouter();
@@ -19,7 +18,6 @@ export default function Login() {
     password: "",
   });
   const [loading, setLoading] = useState(false);
-  const [alert, setAlert] = useState({ type: "", message: "" });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -42,20 +40,24 @@ export default function Login() {
       );
 
       const data = await res.json();
-      console.log(data, res);
+      if (formData.email == "" || formData.password == " ") {
+        toast.error("Please enter your email or username.");
+        return;
+      }
 
       if (!res.ok) {
-        data.error;
-        setAlert({ type: "error", message: "check your connection!!!" });
+        toast(data.error);
         return;
       } else {
-        setAlert({ type: "success", message: "User logged successfully!!!" });
-        localStorage.setItem("accessToken", data.accessToken);
-        // setLoading(false);
-        router.push("/homepage");
+        toast.success("User logged successfully!!!");
+        setTimeout(() => {
+          localStorage.setItem("accessToken", data.accessToken);
+          router.push("/homepage");
+        }, 500);
       }
     } catch (err) {
       console.error("Error:", err);
+      toast.error(err);
     } finally {
       setLoading(false);
     }
@@ -68,7 +70,6 @@ export default function Login() {
         lang == "En" ? "flex flex-col sm:flex-row-reverse" : ""
       }  px-4 pt-7 pb-40 sm:flex sm:justify-center sm:items-center`}
     >
-      {alert.message && <Alert type={alert.type} message={alert.message} />}
       <div
         className={`w-full bg-no-repeat bg-cover bg-top h-[280px] p-12  sm:p-4 drop-shadow-lg sm:max-w-[500px]  sm:h-[550px]
         z-[100] flex flex-col- justify-center items-center relative`}

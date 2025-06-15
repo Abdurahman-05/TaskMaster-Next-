@@ -51,8 +51,9 @@ const registerController = async (req, res) => {
 
 const loginController = async (req, res) => {
   const { email, password } = req.body;
-  // console.log(req.body);
-
+  if (email == "" || password == "") {
+    return res.status(400).json({ error: "Please enter your email or username." });
+  }
   const user = await prisma.user.findUnique({ where: { email } });
 
   if (!user) {

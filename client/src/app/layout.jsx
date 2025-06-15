@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation"; // For navigation events
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AppWrapper } from "@/context";
+import toast, { Toaster } from 'react-hot-toast';
  // Import the spinner component
 
 const geistSans = Geist({
@@ -29,6 +30,7 @@ export default function RootLayout({
       >
         <AppWrapper>
           {children}
+          <Toaster position="top-right" />
         </AppWrapper>
         
       </body>
