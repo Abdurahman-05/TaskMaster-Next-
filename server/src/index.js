@@ -18,7 +18,10 @@ app.use(express.json());
 // });
 
 
-app.use(cors());
+app.use(cors({
+  origin: "https://task-master-next-psi.vercel.app",
+  credentials: true
+}));
 app.use('/',auth);
 app.use('/',authMiddleHandler,userTask);
 
