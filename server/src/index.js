@@ -19,8 +19,8 @@ app.use(express.json());
 
 
 app.use(cors());
-app.use('/',auth);
-app.use('/',authMiddleHandler,userTask);
+app.use('https://taskmaster-next-ryfm.onrender.com/',auth);
+app.use('https://taskmaster-next-ryfm.onrender.com/',authMiddleHandler,userTask);
 
 
 app.listen(5000, () => {
