@@ -52,7 +52,7 @@ export default function Login() {
         toast.success("User logged successfully!!!");
         setTimeout(() => {
           localStorage.setItem("accessToken", data.accessToken);
-          router.push("/homepage");
+          router.push("https://taskmaster-next-ryfm.onrender.com/homepage");
         }, 500);
       }
     } catch (err) {
@@ -181,7 +181,7 @@ export default function Login() {
             <button
               type="button"
               className="font-bold text-[24px] sm:text-xl text-primary "
-              onClick={() => router.push("/signup")}
+              onClick={() => router.push("https://taskmaster-next-ryfm.onrender.com/signup")}
             >
               {lang == "En" ? "تسجيل الدخول" : "Signup"}
             </button>

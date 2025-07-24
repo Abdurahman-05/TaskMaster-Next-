@@ -13,7 +13,7 @@ const ProtectedRoute = ({ children }) => {
     
     if (!token) {
       setTimeout(() => {
-        router.push("/login");
+        router.push("https://taskmaster-next-ryfm.onrender.com/login");
       }, 500);
     } else {
       setIsChecking(false); 
@@ -46,24 +46,3 @@ export default ProtectedRoute;
 
 
 
-
-
-// "use client";
-// import { useEffect } from "react";
-// import { useRouter } from "next/navigation";
-
-// const ProtectedRoute = ({ children }) => {
-//   const router = useRouter();
-
-//   useEffect(() => {
-//     const token = localStorage.getItem("accessToken");
-
-//     if (!token) {
-//       router.push("/login");
-//     }
-//   }, [router]);
-
-//   return <>{children}</>;
-// };
-
-// export default ProtectedRoute;

@@ -106,7 +106,7 @@ export default function Signup() {
     localStorage.setItem("accessToken", data.accessToken);
     localStorage.removeItem('userData');
     localStorage.setItem('currentPage', 1);
-    router.push("/homepage");
+    router.push("https://taskmaster-next-ryfm.onrender.com/homepage");
   }, 500);
       }
     } catch (err) {
@@ -259,7 +259,7 @@ export default function Signup() {
               <button
                 className="font-bold text-2xl text-primary "
                 type="button"
-                onClick={() => router.push("/login")}
+                onClick={() => router.push("https://taskmaster-next-ryfm.onrender.com/login")}
               >
                 {lang == "En" ? "تسجيل دخول" : "Login"}
               </button>
@@ -381,7 +381,7 @@ export default function Signup() {
               <button
                 className="font-bold text-xl text-primary pb-10"
                 type="button"
-                onClick={() => router.push("/login")}
+                onClick={() => router.push("https://taskmaster-next-ryfm.onrender.com/login")}
               >
                 {lang == "En" ? "تسجيل دخول" : "Login"}
               </button>

@@ -113,7 +113,7 @@ export default function NavLayout({ children }) {
               </p>
               <button
                 onClick={() => {
-                  router.push("/homepage/modify");
+                  router.push("https://taskmaster-next-ryfm.onrender.com/homepage/modify");
                   setIsUserOpen(false);
                 }}
                 className="bg-[#7C8495] dark:bg-white dark:text-black text-2xl py-4 px-6 rounded-md w-[321px] font-medium sm:py-3 sm:px-2 sm:w-full  text-white"
@@ -123,7 +123,7 @@ export default function NavLayout({ children }) {
               <button
                 onClick={() => {
                   localStorage.removeItem("accessToken");
-                  router.push("/login");
+                  router.push("https://taskmaster-next-ryfm.onrender.com/login");
                   setIsUserOpen(false);
                 }}
                 className="bg-primary  text-white text-2xl py-4 px-6 rounded-md w-[321px] font-medium sm:w-full sm:py-3 sm:px-2 "
