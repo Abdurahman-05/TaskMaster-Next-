@@ -2,21 +2,21 @@
 
 import { useAppContext } from "@/context";
 import { handleClientScriptLoad } from "next/script";
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import Loading from "@/app/loading";
 import { stringify } from "querystring";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 
 const defaultData = {
- email: "",
- password: "",
- rePassword: "",
- phone: "",
- username: "",
- dateOfBirth: "",
+  email: "",
+  password: "",
+  rePassword: "",
+  phone: "",
+  username: "",
+  dateOfBirth: "",
 };
 
 export default function Signup() {
@@ -24,7 +24,7 @@ export default function Signup() {
   const { lang, handleLang } = useAppContext();
   const [loading, setLoading] = useState(false);
   const [ShowPwd, setShowPwd] = useState(false);
-   const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
   // On mount, load currentPage from localStorage (client only)
   useEffect(() => {
@@ -39,7 +39,7 @@ export default function Signup() {
     localStorage.setItem("currentPage", currentPage);
   }, [currentPage]);
 
-   const [formData, setFormData] = useState(defaultData);
+  const [formData, setFormData] = useState(defaultData);
 
   // On mount, load formData from localStorage
   useEffect(() => {
@@ -49,7 +49,6 @@ export default function Signup() {
     }
   }, []);
 
- 
   useEffect(() => {
     localStorage.setItem("userData", JSON.stringify(formData));
   }, [formData]);
@@ -69,15 +68,13 @@ export default function Signup() {
   };
 
   const handleChange = (e) => {
-  
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
-     
     e.preventDefault();
     setLoading(true);
-    
+
     try {
       localStorage.setItem("userData", JSON.stringify(formData));
       const userData = JSON.parse(localStorage.getItem("userData"));
@@ -93,21 +90,21 @@ export default function Signup() {
       );
 
       const data = await res.json();
-      if(formData.username == "" || formData.phone == ""){
-      toast.error("pls fill the requirement!!!!!!!");
-      return;
-    }
+      if (formData.username == "" || formData.phone == "") {
+        toast.error("pls fill the requirement!!!!!!!");
+        return;
+      }
       if (!res.ok) {
         toast.error(data.error);
         return;
       } else {
         toast.success("User registered successfully");
         setTimeout(() => {
-    localStorage.setItem("accessToken", data.accessToken);
-    localStorage.removeItem('userData');
-    localStorage.setItem('currentPage', 1);
-    router.push("https://taskmaster-next-ryfm.onrender.com/homepage");
-  }, 500);
+          localStorage.setItem("accessToken", data.accessToken);
+          localStorage.removeItem("userData");
+          localStorage.setItem("currentPage", 1);
+          router.push("https://task-master-next-psi.vercel.app/homepage");
+        }, 500);
       }
     } catch (err) {
       console.error("Error:", err);
@@ -234,7 +231,6 @@ export default function Signup() {
                     lang == "En" ? "text-right  pr-3" : "text-left"
                   } `}
                 />
-               
               </div>
             </div>
 
@@ -259,7 +255,9 @@ export default function Signup() {
               <button
                 className="font-bold text-2xl text-primary "
                 type="button"
-                onClick={() => router.push("https://taskmaster-next-ryfm.onrender.com/login")}
+                onClick={() =>
+                  router.push("https://task-master-next-psi.vercel.app/login")
+                }
               >
                 {lang == "En" ? "تسجيل دخول" : "Login"}
               </button>
@@ -381,7 +379,9 @@ export default function Signup() {
               <button
                 className="font-bold text-xl text-primary pb-10"
                 type="button"
-                onClick={() => router.push("https://taskmaster-next-ryfm.onrender.com/login")}
+                onClick={() =>
+                  router.push("https://task-master-next-psi.vercel.app/login")
+                }
               >
                 {lang == "En" ? "تسجيل دخول" : "Login"}
               </button>

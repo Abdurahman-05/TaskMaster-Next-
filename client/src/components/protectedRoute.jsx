@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -7,22 +6,19 @@ import { useRouter } from "next/navigation";
 const ProtectedRoute = ({ children }) => {
   const router = useRouter();
   const [isChecking, setIsChecking] = useState(true);
-  
+
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
-    
+
     if (!token) {
       setTimeout(() => {
-        router.push("https://taskmaster-next-ryfm.onrender.com/login");
+        router.push("https://task-master-next-psi.vercel.app/login");
       }, 500);
     } else {
-      setIsChecking(false); 
+      setIsChecking(false);
     }
   }, [router]);
 
-
-  
-  
   if (isChecking) {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-100">
@@ -30,19 +26,8 @@ const ProtectedRoute = ({ children }) => {
       </div>
     );
   }
-  
+
   return <>{children}</>;
 };
 
 export default ProtectedRoute;
-
-
-
-
-
-
-
-
-
-
-

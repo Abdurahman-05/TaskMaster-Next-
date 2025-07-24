@@ -100,8 +100,12 @@ export default function NavLayout({ children }) {
           </div>
           {isUserOpen && (
             <div
-              className={ `w-full min-h-screen bg-[rgba(0,0,0,0.8)]   absolute top-[63px] space-y-3   flex flex-col justify-center items-center z-[1000] 
-          sm:w-[300px] sm:h-fit sm:rounded-2xl  sm:bg-white dark:bg-[rgba(0,0,0,0.8)] ${lang == 'Ar' ?"sm:top-[65px] sm:right-[20px]":"sm:top-[65px] sm:left-[20px]"} sm:px-3 sm:py-3 sm:space-y-1 sm:min-h-0
+              className={`w-full min-h-screen bg-[rgba(0,0,0,0.8)]   absolute top-[63px] space-y-3   flex flex-col justify-center items-center z-[1000] 
+          sm:w-[300px] sm:h-fit sm:rounded-2xl  sm:bg-white dark:bg-[rgba(0,0,0,0.8)] ${
+            lang == "Ar"
+              ? "sm:top-[65px] sm:right-[20px]"
+              : "sm:top-[65px] sm:left-[20px]"
+          } sm:px-3 sm:py-3 sm:space-y-1 sm:min-h-0
               `}
             >
               <p
@@ -113,7 +117,9 @@ export default function NavLayout({ children }) {
               </p>
               <button
                 onClick={() => {
-                  router.push("https://taskmaster-next-ryfm.onrender.com/homepage/modify");
+                  router.push(
+                    "https://task-master-next-psi.vercel.app/homepage/modify"
+                  );
                   setIsUserOpen(false);
                 }}
                 className="bg-[#7C8495] dark:bg-white dark:text-black text-2xl py-4 px-6 rounded-md w-[321px] font-medium sm:py-3 sm:px-2 sm:w-full  text-white"
@@ -123,7 +129,7 @@ export default function NavLayout({ children }) {
               <button
                 onClick={() => {
                   localStorage.removeItem("accessToken");
-                  router.push("https://taskmaster-next-ryfm.onrender.com/login");
+                  router.push("https://task-master-next-psi.vercel.app/login");
                   setIsUserOpen(false);
                 }}
                 className="bg-primary  text-white text-2xl py-4 px-6 rounded-md w-[321px] font-medium sm:w-full sm:py-3 sm:px-2 "

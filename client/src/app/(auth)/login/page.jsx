@@ -52,7 +52,7 @@ export default function Login() {
         toast.success("User logged successfully!!!");
         setTimeout(() => {
           localStorage.setItem("accessToken", data.accessToken);
-          router.push("https://taskmaster-next-ryfm.onrender.com/homepage");
+          router.push("https://task-master-next-psi.vercel.app/homepage");
         }, 500);
       }
     } catch (err) {
@@ -181,7 +181,7 @@ export default function Login() {
             <button
               type="button"
               className="font-bold text-[24px] sm:text-xl text-primary "
-              onClick={() => router.push("https://taskmaster-next-ryfm.onrender.com/signup")}
+              onClick={() => router.push("https://task-master-next-psi.vercel.app/signup")}
             >
               {lang == "En" ? "تسجيل الدخول" : "Signup"}
             </button>
